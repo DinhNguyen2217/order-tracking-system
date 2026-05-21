@@ -1,0 +1,11 @@
+node_modules
+frontend/dist
+backend/database.sqlite
+backend/database.sqlite-shm
+backend/database.sqlite-wal
+npm-debug.log*
+
+# Environment files — never commit these
+.env
+backend/.env
+frontend/.env
