@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 
+// API base URL: dùng VITE_API_URL nếu có (production), fallback về '' (dev proxy)
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
 const STATUS_OPTIONS = ['pending', 'confirmed', 'shipping', 'delivered', 'cancelled'];
 
 const STATUS_LABEL = {
