@@ -55,7 +55,7 @@ export default function App() {
 
   async function fetchHealth() {
     try {
-      const res = await fetch('/api/health');
+      const res = await fetch(`${API_BASE}/api/health`);
       setHealth(await res.json());
     } catch {
       setHealth(null);
@@ -66,12 +66,12 @@ export default function App() {
     const query = new URLSearchParams();
     if (filters.search) query.set('search', filters.search);
     if (filters.status) query.set('status', filters.status);
-    const res = await fetch(`/api/orders?${query.toString()}`);
+    const res = await fetch(`${API_BASE}/api/orders?${query.toString()}`);
     setOrders(await res.json());
   }
 
   async function fetchStats() {
-    const res = await fetch('/api/orders/stats');
+    const res = await fetch(`${API_BASE}/api/orders/stats`);
     setStats(await res.json());
   }
 
@@ -105,7 +105,7 @@ export default function App() {
   async function handleCreateOrder(e) {
     e.preventDefault();
     try {
-      const res = await fetch('/api/orders', {
+      const res = await fetch(`${API_BASE}/api/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, quantity: Number(form.quantity), price: Number(form.price) })
@@ -123,7 +123,7 @@ export default function App() {
 
   async function handleStatusChange(orderId, nextStatus) {
     try {
-      const res = await fetch(`/api/orders/${orderId}/status`, {
+      const res = await fetch(`${API_BASE}/api/orders/${orderId}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: nextStatus })
@@ -140,7 +140,7 @@ export default function App() {
   async function handleDelete(orderId) {
     if (!window.confirm(`Xóa đơn hàng #${orderId}?`)) return;
     try {
-      const res = await fetch(`/api/orders/${orderId}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/api/orders/${orderId}`, { method: 'DELETE' });
       const data = await res.json();
       if (!res.ok) { showToast(data.message || 'Xóa thất bại', 'error'); return; }
       showToast(`Đã xóa đơn #${orderId}.`, 'success');
