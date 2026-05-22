@@ -8,11 +8,20 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // DB_PATH env: supports absolute path (Docker volume) or relative path (local dev)
+// On Render free tier, use /tmp for writable storage
 const dbPath = process.env.DB_PATH
   ? path.isAbsolute(process.env.DB_PATH)
     ? process.env.DB_PATH
     : path.resolve(__dirname, process.env.DB_PATH)
   : path.join(__dirname, 'database.sqlite');
+
+// Ensure the directory exists
+import { mkdirSync } from 'fs';
+try {
+  mkdirSync(path.dirname(dbPath), { recursive: true });
+} catch {
+  // Directory already exists, ignore
+}
 
 export const db = new sqlite3.Database(dbPath);
 
